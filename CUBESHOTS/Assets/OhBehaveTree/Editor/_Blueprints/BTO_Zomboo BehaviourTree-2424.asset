@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b87c18b7b2ef524981601c966489ea5, type: 3}
+  m_Name: BTO_Zomboo BehaviourTree-2424
+  m_EditorClassIdentifier: 
+  behaviorTreeName: 
+  description: 
+  behaviourSource: {fileID: 0}
+  sharedMethodNames:
+  - No action selected
+  - MoveRight
+  - MoveLeft
+  - TimerUp
+  - TimerDown
+  privateMethodNames:
+  - MoveRight
+  - MoveLeft
+  - TimerUp
+  - TimerDown
+  ohBehaveAI: {fileID: 0}
+  jsonGUID: 89f5dcfc7cf550f4bb3c950c58e7f703
+  savedNodes:
+  - nodeType: 1
+    index: 0
+    parentIndex: -69
+    displayName: Root
+    description: The Root Node - where it all begins
+    windowRect:
+      serializedVersion: 2
+      x: -125
+      y: -100
+      width: 250
+      height: 124
+    actionName: 
+    isExpanded: 0
+    isRandom: 0
+    children: 01000000
+  - nodeType: 6
+    index: 1
+    parentIndex: 0
+    displayName: Leaf
+    description: Leaf type node. Add description of desired behaviour
+    windowRect:
+      serializedVersion: 2
+      x: 165.5
+      y: 90.5
+      width: 250
+      height: 162
+    actionName: 
+    isExpanded: 1
+    isRandom: 0
+    children: 
+  zoomerSettings:
+    zoomOrigin: {x: -99.210495, y: -8.935909}
+    zoomScale: 0.6830134
+  childrenMoveWithParent: 1
+  save: 0
+  selectedNode:
+    nodeType: 6
+    index: 1
+    parentIndex: 0
+    displayName: Leaf
+    description: Leaf type node. Add description of desired behaviour
+    windowRect:
+      serializedVersion: 2
+      x: 165.5
+      y: 90.5
+      width: 250
+      height: 162
+    actionName: 
+    isExpanded: 1
+    isRandom: 0
+    children: 
+  jsonTreeData:
+    name: Zomboo BehaviourTree
+    blueprintGUID: 7107a4049a8ae71469623e8a98546ef8
+    actionSource: {fileID: 0}
+    rootNode:
+      index: 0
+      parentIndex: -69
+      childrenIndices: 01000000
+      isRandom: 0
+      nodeType: 1
+      methodInfoName: 
+    tree:
+    - index: 0
+      parentIndex: -69
+      childrenIndices: 01000000
+      isRandom: 0
+      nodeType: 1
+      methodInfoName: 
+    - index: 1
+      parentIndex: 0
+      childrenIndices: 
+      isRandom: 0
+      nodeType: 6
+      methodInfoName: 
+  lastNodeIndex: 1

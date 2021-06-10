@@ -1,0 +1,10 @@
+diff a/OhBehaveTree/Assets/OhBehaveTree/Editor/OhBehaveGUI/OhBehaveEditorWindow.cs b/OhBehaveTree/Assets/OhBehaveTree/Editor/OhBehaveGUI/OhBehaveEditorWindow.cs	(rejected hunks)
+@@ -35,6 +35,8 @@
+ 
+ 		private OhBehaveEditorWindow window;
+ 		private OhBehaveAI currentAIBehaviour;
++		private OhBehaveAI aiRequestingNewBlueprint;
++		private bool openSaveFileChooser;
+ 		private Rect zoomRect;
+ 		private float areaBelowZoomHeight = 50;
+ 

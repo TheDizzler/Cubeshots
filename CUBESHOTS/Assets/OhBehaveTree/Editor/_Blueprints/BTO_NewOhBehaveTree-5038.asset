@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b87c18b7b2ef524981601c966489ea5, type: 3}
+  m_Name: BTO_NewOhBehaveTree-5038
+  m_EditorClassIdentifier: 
+  behaviorTreeName: 
+  description: 
+  behaviorSource: {fileID: 0}
+  sharedMethodNames: []
+  privateMethodNames: []
+  ohBehaveAI: {fileID: 0}
+  jsonGUID: 37ffc1dab6246a848862c08c18d057d7
+  savedNodes:
+  - nodeType: 1
+    index: 0
+    parentIndex: -69
+    displayName: Root
+    description: The Root Node - where it all begins
+    windowRect:
+      serializedVersion: 2
+      x: -125
+      y: -100
+      width: 250
+      height: 143
+    actionName: 
+    isExpanded: 0
+    children: 
+  zoomerSettings:
+    zoomOrigin: {x: -24.227274, y: -45.590897}
+    zoomScale: 0.9090909
+  childrenMoveWithParent: 1
+  selectedNode:
+    nodeType: 0
+    index: 0
+    parentIndex: 0
+    displayName: 
+    description: 
+    windowRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    actionName: 
+    isExpanded: 0
+    children: 
+  jsonTreeData:
+    name: NewOhBehaveTree
+    blueprintGUID: 710e764cd868afd409507e3506f85888
+    actionSource: {fileID: 0}
+    rootNode:
+      index: 0
+      parentIndex: 0
+      childrenIndices: 
+      nodeType: 1
+      methodInfoName: 
+    tree:
+    - index: 0
+      parentIndex: 0
+      childrenIndices: 
+      nodeType: 1
+      methodInfoName: 
+  lastNodeIndex: 0
