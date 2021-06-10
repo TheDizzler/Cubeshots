@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5677414765102502786}
-  - component: {fileID: 5677414765102502788}
-  - component: {fileID: 5677414765102502793}
+  - component: {fileID: 2108617758076170140}
+  - component: {fileID: 3610673067338063889}
   - component: {fileID: 5677414765102502789}
+  - component: {fileID: 5677414765102502793}
   - component: {fileID: 5677414765102502787}
   - component: {fileID: 5677414765102502790}
   - component: {fileID: 5677414765102502791}
@@ -37,7 +38,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5677414765102502788
+--- !u!114 &2108617758076170140
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,12 +47,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5677414765102502784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f09f93c068905b64299b26cde03cd564, type: 3}
+  m_Script: {fileID: 11500000, guid: 11356b7d7269e7c4da8bf47ea3a3db94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bsm: {fileID: 3610673067338063889}
   bulletPrefab: {fileID: 7704910642915619719, guid: fcb52d3c767a9434dbeebb9f8b01b462,
     type: 3}
---- !u!114 &5677414765102502793
+  health: {fileID: 5677414765102502793}
+  body: {fileID: 5677414765102502790}
+  exitSpeed: 10
+--- !u!114 &3610673067338063889
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,11 +65,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5677414765102502784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52f37e09f5935244fa6eb31c65ffe8ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 82ad785b20e46c94293601b2a0d1e137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  healthBar: {fileID: 5677414766807235258}
+  jsonFilepath: /OhBehaveTrees/StopAndShootEnemy.OhJson
 --- !u!114 &5677414765102502789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,7 +89,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5677414765102502788}
+        - m_Target: {fileID: 2108617758076170140}
           m_MethodName: OnQuarterBeat
           m_Mode: 1
           m_Arguments:
@@ -103,7 +107,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5677414765102502788}
+        - m_Target: {fileID: 2108617758076170140}
           m_MethodName: OnBarBeat
           m_Mode: 1
           m_Arguments:
@@ -121,7 +125,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5677414765102502788}
+        - m_Target: {fileID: 2108617758076170140}
           m_MethodName: OnSongStart
           m_Mode: 1
           m_Arguments:
@@ -132,6 +136,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &5677414765102502793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5677414765102502784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52f37e09f5935244fa6eb31c65ffe8ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 50
+  healthBar: {fileID: 5677414766807235258}
 --- !u!212 &5677414765102502787
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -7,13 +7,12 @@ namespace AtomosZ.Cubeshots.Waves
 {
 	public class Wave
 	{
-		private const int BULLET_STORE_SIZE = 100;
 		public static Vector3 storePosition
 			= new Vector3(float.MinValue, float.MinValue, 0);
 
+		private const int BULLET_STORE_SIZE = 100;
 
-		public int enemyPerWave = 2;
-		//protected BasicBullet[] bulletStore;
+		public int enemyPerWave = 4;
 		private Queue<BasicBullet> bulletStore;
 		/// <summary>
 		/// The enemy prefab this wave is composed of.
@@ -21,8 +20,9 @@ namespace AtomosZ.Cubeshots.Waves
 		private GameObject enemyPrefab;
 		private Vector3 leftSideLaunch;
 		private Vector3 rightSideLaunch;
-		private Queue<Enemy> nextWave = new Queue<Enemy>();
-		private Queue<Enemy> enemyStore = new Queue<Enemy>();
+		private Queue<StopAndShootEnemy> nextWave = new Queue<StopAndShootEnemy>();
+		private Queue<StopAndShootEnemy> enemyStore = new Queue<StopAndShootEnemy>();
+		private int insufficientBulletCount;
 
 
 
@@ -38,11 +38,7 @@ namespace AtomosZ.Cubeshots.Waves
 
 			for (int i = 0; i < enemyPerWave; ++i)
 			{
-				Enemy enemy = GameObject.Instantiate(
-					enemyPrefab, storePosition, Quaternion.identity).GetComponent<Enemy>();
-				enemy.wave = this;
-				//enemy.bulletStore = bulletStore;
-				enemyStore.Enqueue(enemy);
+				CreateEnemy();
 			}
 
 			var bulletPrefab = enemyStore.Peek().bulletPrefab;
@@ -59,23 +55,43 @@ namespace AtomosZ.Cubeshots.Waves
 			}
 		}
 
+
 		public BasicBullet GetNextBullet()
 		{
 			if (bulletStore.Count == 0)
 			{
-				Debug.LogError(enemyPrefab.name + " bullet store not big enough");
+				++insufficientBulletCount;
+				Debug.LogError(enemyPrefab.name + " bullet store not big enough." +
+					" Increase by " + insufficientBulletCount);
+				GameObject bullet = GameObject.Instantiate(
+					enemyStore.Peek().bulletPrefab, storePosition,
+					Quaternion.identity, MusicalCommander.instance.bulletStore);
+				bullet.tag = Tags.ENEMY_BULLET;
+				bulletStore.Enqueue(bullet.GetComponent<BasicBullet>());
 			}
 
 			return bulletStore.Dequeue();
 		}
 
+
+		private List<Vector3> destinations = new List<Vector3>()
+		{
+			new Vector3(6, 1, 0),
+			new Vector3(2, 1.5f, 0),
+			new Vector3(-2, 1.5f, 0),
+			new Vector3(-6, 1, 0)
+		};
+		private int nextDestination;
+
 		public void OnBeat()
 		{
 			if (nextWave.Count > 0)
 			{
-				nextWave.Dequeue().Launch(leftSideLaunch, new Vector3(10, 1, 0));
-				nextWave.Dequeue().Launch(rightSideLaunch, new Vector3(-10, 1, 0));
+				Vector3 launchPos = leftSideLaunch;
+				nextWave.Dequeue().Launch(launchPos, destinations[nextDestination++]);
 			}
+			else
+				nextDestination = 0;
 		}
 
 		public void PrepareWave()
@@ -84,29 +100,34 @@ namespace AtomosZ.Cubeshots.Waves
 			{
 				for (int i = 0; i < enemyPerWave; ++i)
 				{
-					Enemy enemy = GameObject.Instantiate(
-						enemyPrefab, storePosition, Quaternion.identity).GetComponent<Enemy>();
-					enemy.wave = this;
-					enemyStore.Enqueue(enemy);
+					CreateEnemy();
 				}
 			}
 
-			//for (int i = 0; i < enemyPerWave; ++i)
-			//{
-			nextWave.Enqueue(enemyStore.Dequeue());
-			nextWave.Enqueue(enemyStore.Dequeue());
-			//}
+			for (int i = 0; i < enemyPerWave; ++i)
+				nextWave.Enqueue(enemyStore.Dequeue());
 		}
+
 
 		public void EnemyBecameInactive(Enemy enemy)
 		{
-			enemyStore.Enqueue(enemy);
+			enemyStore.Enqueue((StopAndShootEnemy)enemy);
 		}
 
 		public void BulletBecameInactive(BasicBullet bullet)
 		{
 			bullet.transform.localPosition = storePosition;
 			bulletStore.Enqueue(bullet);
+		}
+
+
+		private void CreateEnemy()
+		{
+			StopAndShootEnemy enemy = GameObject.Instantiate(
+				enemyPrefab, storePosition, Quaternion.identity)
+				.GetComponent<StopAndShootEnemy>();
+			enemy.wave = this;
+			enemyStore.Enqueue(enemy);
 		}
 	}
 }

@@ -1,51 +1,74 @@
 ﻿using AtomosZ.Cubeshots.WeaponSystems;
+using AtomosZ.OhBehave;
 using UnityEngine;
 
 namespace AtomosZ.Cubeshots.Waves
 {
-	public class Enemy : MonoBehaviour, ShmupActor
+	public abstract class Enemy : OhBehaveActions, IShmupActor
 	{
 		private const int BASIC_BULLET_STORE_SIZE = 10;
+		private const float OUT_OF_BOUNDS_TIME_LIMIT = 1.5f;
 
 		public GameObject bulletPrefab;
 
-		//public GameObject bulletPrefab;
 		[HideInInspector]
 		public Wave wave;
 
-		private Health health;
-		private bool isQuarter;
-		private bool isBar;
-		private int bulletsFired;
+		[SerializeField]
+		protected Health health = null;
+		[SerializeField]
+		protected Rigidbody2D body = null;
+		protected Camera mainCamera;
+		protected Transform player;
+		protected float oobTimer;
+		protected bool isBeat;
+		protected bool isBar;
+		protected float timeAlive;
+
+		protected int bulletsFired;
 		private float nextAngle;
 
-		private float timeAlive;
-		private Camera mainCamera;
 
 
 		void Start()
 		{
 			mainCamera = Camera.main;
 			gameObject.SetActive(false);
-
-			health = GetComponent<Health>();
+			player = GameObject.FindGameObjectWithTag(Tags.PLAYER).transform;
 		}
 
 
-		public void Launch(Vector3 startPosition, Vector3 initialVelocity)
-		{
-			transform.position = startPosition;
-			health.Reset();
 
-			bulletsFired = 0;
-			nextAngle = 195f;
+		protected virtual void Reset()
+		{
+			health.Reset();
+			isBeat = false;
+			isBar = false;
 			bulletsFired = 0;
 			timeAlive = 0;
-
-			gameObject.SetActive(true);
-			GetComponent<Rigidbody2D>().velocity = initialVelocity;
 		}
 
+
+		//public void Launch(Vector3 startPosition, Vector3 initialVelocity)
+		//{
+		//	transform.position = startPosition;
+		//	health.Reset();
+
+		//	bulletsFired = 0;
+		//	nextAngle = 195f;
+		//	bulletsFired = 0;
+		//	timeAlive = 0;
+
+		//	isQuarter = false;
+		//	isBar = false;
+
+		//	gameObject.SetActive(true);
+		//	body.velocity = initialVelocity;
+		//}
+
+		/// <summary>
+		/// For debugging.
+		/// </summary>
 		public void OnSongStart()
 		{
 			bulletsFired = 0;
@@ -55,7 +78,7 @@ namespace AtomosZ.Cubeshots.Waves
 
 		public void OnQuarterBeat()
 		{
-			isQuarter = true;
+			isBeat = true;
 		}
 
 		public void OnBarBeat()
@@ -77,38 +100,31 @@ namespace AtomosZ.Cubeshots.Waves
 			wave.BulletBecameInactive(bullet);
 		}
 
-		void Update()
+		void LateUpdate()
 		{
-			if (isBar)
-			{
-				bulletsFired = 0;
-				nextAngle = 195f;
-
-
-			}
-			GetComponent<Rigidbody2D>().velocity = new Vector3(5, 1, 0);
-			if (isQuarter && bulletsFired < 3)
-			{
-				++bulletsFired;
-				nextAngle -= 15f;
-				BasicBullet bullet = wave.GetNextBullet();
-				bullet.SetOwner(this);
-				if (bullet != null)
-					bullet.Fire(transform.position, Quaternion.Euler(0, 0, nextAngle) * Vector2.up, 0);
-			}
-
-			isQuarter = false;
-			isBar = false;
-
 			timeAlive += Time.deltaTime;
+			isBeat = false;
+			isBar = false;
+		}
 
+
+
+		protected void CheckOutOfBounds()
+		{
+			// Check if actor is out of camera
 			Vector3 vpPos = mainCamera.WorldToViewportPoint(transform.localPosition);
-			if (vpPos.x < -.5f || vpPos.y < -.5f
-				|| vpPos.x > 1.5f || vpPos.y > 1.5f)
+			if (vpPos.x < -.05f || vpPos.y < -.05f
+				|| vpPos.x > 1.05f || vpPos.y > 1.05f)
 			{
-				gameObject.SetActive(false);
-				wave.EnemyBecameInactive(this);
+				oobTimer += Time.deltaTime;
+				if (oobTimer >= OUT_OF_BOUNDS_TIME_LIMIT)
+				{
+					gameObject.SetActive(false);
+					wave.EnemyBecameInactive(this);
+				}
 			}
+			else
+				oobTimer = 0;
 		}
 	}
 }

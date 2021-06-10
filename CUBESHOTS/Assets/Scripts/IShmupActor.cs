@@ -2,7 +2,7 @@
 
 namespace AtomosZ.Cubeshots
 {
-	public interface ShmupActor
+	public interface IShmupActor
 	{
 		void TakeDamage(int damage);
 		void BulletBecameInactive(BasicBullet bullet);

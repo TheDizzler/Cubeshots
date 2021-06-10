@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace AtomosZ.Cubeshots
 {
+	[RequireComponent(typeof(IShmupActor))]
 	public class Health : MonoBehaviour
 	{
 		public int maxHealth = 100;
@@ -24,6 +25,12 @@ namespace AtomosZ.Cubeshots
 		/// <returns></returns>
 		public bool TakeDamage(int damage)
 		{
+			if (currentHealth == 0)
+			{
+				Debug.Log("Already died once");
+				return false;
+			}
+
 			currentHealth -= damage;
 			if (currentHealth <= 0)
 			{

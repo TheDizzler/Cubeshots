@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace AtomosZ.Cubeshots.PlayerLibs
 {
-	public class PlayerCube : MonoBehaviour, ShmupActor
+	public class PlayerCube : MonoBehaviour, IShmupActor
 	{
 		private const int BASIC_BULLET_STORE_SIZE = 100;
 
@@ -22,7 +22,6 @@ namespace AtomosZ.Cubeshots.PlayerLibs
 		public PlayerController controller;
 
 		private Queue<BasicBullet> bulletStore;
-		//private int nextBulletIndex;
 		private bool isEighthBeat;
 		private bool isQuarterBeat;
 		private bool isHalfBeat;
@@ -169,24 +168,6 @@ namespace AtomosZ.Cubeshots.PlayerLibs
 				Debug.LogError(name + " needs a larger bullet store!!");
 
 			return bulletStore.Dequeue();
-			//bool restarted = false;
-			//while (bulletStore[nextBulletIndex].enabled)
-			//{
-			//	if (++nextBulletIndex >= BASIC_BULLET_STORE_SIZE)
-			//	{
-			//		nextBulletIndex = 0;
-
-			//		if (restarted)
-			//		{
-			//			Debug.LogWarning(name + " needs a larger bullet store!!");
-			//			return null;
-			//		}
-
-			//		restarted = true;
-			//	}
-			//}
-
-			//return bulletStore[nextBulletIndex];
 		}
 	}
 }

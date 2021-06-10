@@ -9,12 +9,13 @@ namespace AtomosZ.Cubeshots.WeaponSystems
 		public float timeToLive = 3;
 
 		[HideInInspector]
-		public ShmupActor owner;
+		public IShmupActor owner;
 		[HideInInspector]
 		public Vector3 direction;
 		private float timeAlive;
 		private float curve = 0;
 		private Camera mainCamera;
+		private Transform player;
 
 
 		void Start()
@@ -22,9 +23,10 @@ namespace AtomosZ.Cubeshots.WeaponSystems
 			mainCamera = Camera.main;
 			gameObject.SetActive(false);
 			enabled = false;
+			player = GameObject.FindGameObjectWithTag(Tags.PLAYER).transform;
 		}
 
-		public void SetOwner(ShmupActor actor)
+		public void SetOwner(IShmupActor actor)
 		{
 			owner = actor;
 		}
@@ -44,10 +46,13 @@ namespace AtomosZ.Cubeshots.WeaponSystems
 			transform.localPosition = transform.localPosition + direction * speed * Time.deltaTime;
 			direction = Quaternion.Euler(0, 0, curve * Time.deltaTime) * direction;
 			timeAlive += Time.deltaTime;
+			Debug.DrawLine(transform.localPosition, player.localPosition);
 			Vector3 vpPos = mainCamera.WorldToViewportPoint(transform.localPosition);
 			if (vpPos.x < -.5f || vpPos.y < -.5f
 				|| vpPos.x > 1.5f || vpPos.y > 1.5f)
 				Disable();
+
+			
 		}
 
 		void OnTriggerEnter2D(Collider2D collision)
@@ -55,7 +60,7 @@ namespace AtomosZ.Cubeshots.WeaponSystems
 			if ((collision.CompareTag(Tags.PLAYER) && CompareTag(Tags.ENEMY_BULLET))
 				|| (collision.CompareTag(Tags.ENEMY) && CompareTag(Tags.PLAYER_BULLET)))
 			{
-				collision.GetComponent<ShmupActor>().TakeDamage(damage);
+				collision.GetComponent<IShmupActor>().TakeDamage(damage);
 				Disable();
 			}
 		}
